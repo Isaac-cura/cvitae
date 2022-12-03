@@ -1,26 +1,30 @@
 import { useMemo } from "react"
-import moment, { Moment } from 'moment'
+import moment from 'moment'
 import { useForm } from "react-hook-form";
 import { DatePickerWrapped } from "../../../../components/wrapped-datepicker/wrapped-datepicker";
 export function TrayectoryDataForm() {
     const currentDate = useMemo(() => moment(), [])
-    const { control } = useForm({
+    const { control, register,watch, formState: {isValid, errors} } = useForm({
         defaultValues: {
-            startDate: currentDate,
+            startDate: currentDate as any,
             position: '',
             company: '',
             description: '',
-            endDate: null as Moment | null
-        }
+            endDate: null as any
+        },
+        mode: "onChange",
     })
+    setTimeout(( ) => {
+        console.log(errors, isValid)
 
+    }, 1000)
     return <div className="row">
         <div className="col-12">
-            <h2>Trayectoria laboral</h2>
+            <h2>Trayectoria laboral {watch("company")} {watch("position")} {watch("description")}</h2>
         </div>
         <div className="col">
             <div className="row">
-                <div className="col">
+                <div className="col" data-testid="startDate">
                     <DatePickerWrapped
                         control={control}
                         label="fecha de contratación (*)"
@@ -31,22 +35,35 @@ export function TrayectoryDataForm() {
             <div className="row">
                 <div className="col">
                     <label htmlFor="jobPosition">posición (*)</label>
-                    <input className="form-control" type="text" name="jobPosition" id="jobPosition" />
+                    <input
+                        className="form-control"
+                        type="text"
+                        id="jobPosition"
+                        {...register("position", {required: true})}
+                    />
                 </div>
                 <div className="col">
                     <label htmlFor="jobCompany">compañía (*)</label>
-                    <input className="form-control" type="text" name="jobCompany" id="jobCompany" />
+                    <input
+                        {...register("company", {required: true})}
+                        className="form-control"
+                        type="text"
+                        id="jobCompany" />
                 </div>
             </div>
             <div className="row">
                 <div className="col">
                     <label htmlFor="jobDescription">descripción del puesto (*)</label>
-                    <textarea className="form-control" name="jobDescription" id="jobDescription"></textarea>
+                    <textarea
+                        {...register("description", {required: true})}
+                        className="form-control"
+                        id="jobDescription">
+                    </textarea>
                 </div>
             </div>
             <div className="row">
                 <div className="col">
-                <DatePickerWrapped
+                    <DatePickerWrapped
                         control={control}
                         label="fecha de cese laboral"
                         inputName="endDate"
@@ -55,7 +72,8 @@ export function TrayectoryDataForm() {
             </div>
             <div className="row">
                 <div className="col">
-                    <button disabled>agregar</button>
+                    {isValid || JSON.stringify(errors)}
+                    <button disabled={!isValid}>agregar</button>
                 </div>
             </div>
         </div>
