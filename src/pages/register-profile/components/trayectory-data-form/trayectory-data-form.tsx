@@ -23,8 +23,8 @@ export function TrayectoryDataForm() {
     const addFormToList = () => {
         const { startDate, endDate, position, company, description } = getValues()
         addToList({
-            startDate: (startDate as Moment).toISOString(),
-            endDate: (endDate as Moment)?.toISOString(),
+            startDate: startDate as Moment,
+            endDate: endDate as Moment,
             position,
             company,
             description

@@ -14,10 +14,10 @@ export function JobItem({ job, onClose }: { job: Job, onClose?: () => void }) {
                 {job.description}
             </div>
             <div>
-                {job.startDate}
+                {job.startDate.toLocaleString()}
             </div>
             <div>
-                {job.endDate}
+                {job.endDate?.toLocaleString()}
             </div>
         </Alert>
     );

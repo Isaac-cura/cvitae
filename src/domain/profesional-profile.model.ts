@@ -1,3 +1,5 @@
+import { Moment } from "moment";
+
 export interface ProfesionalProfile {
     name: string;
     lastName: string;
@@ -36,6 +38,6 @@ export interface Job {
     company: string;
     position: string;
     description: string;
-    startDate: string;
-    endDate?: string;
+    startDate: Moment;
+    endDate?: Moment;
 }
