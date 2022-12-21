@@ -2,9 +2,10 @@ import { useMemo, useState } from "react"
 import moment, { Moment } from 'moment'
 import { useForm } from "react-hook-form";
 import { DatePickerWrapped } from "../../../../components/wrapped-datepicker";
-import { Alert } from "react-bootstrap";
+import { Alert, Button } from "react-bootstrap";
 import { Job } from "../../../../domain/profesional-profile.model";
 import { useListForm } from "../../../../hooks/useListForm/useListForm";
+import { JobItem } from "../../../../components/job-item/job-item";
 
 export function TrayectoryDataForm() {
     const { list, addToList, removeFromList } = useListForm<Job>()
@@ -33,11 +34,9 @@ export function TrayectoryDataForm() {
         <div className="col-12">
             <h2>Trayectoria laboral</h2>
         </div>
-        {list.map((item, index) => {
+        {list.map((job, index) => {
             return (<div className="col-12" key={index}>
-                <Alert variant="secondary" onClose={() => { removeFromList(index) }} dismissible>
-                    {item.company}
-                </Alert>
+                <JobItem job={job} onClose={() => {removeFromList(index)}}></JobItem>
             </div>)
         })}
         <div className="col">
@@ -72,7 +71,7 @@ export function TrayectoryDataForm() {
             </div>
             <div className="row">
                 <div className="col">
-                    <button disabled={!isValid} onClick={addFormToList}>agregar</button>
+                    <Button  disabled={!isValid} onClick={addFormToList}>agregar</Button>
                 </div>
             </div>
         </div>
